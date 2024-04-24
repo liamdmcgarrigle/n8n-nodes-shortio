@@ -5,10 +5,10 @@ import {
 import { resources } from './Resources';
 import { linkFields, linkOperations } from './Descriptions/LinkDescription';
 
-export class ShortioNode implements INodeType {
+export class Shortio implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Short.io',
-		name: 'shortio',
+		name: 'Shortio',
 		group: ['Marketing & Content'],
 		version: 1,
 		subtitle: '={{ $parameter["operation"] }}',
