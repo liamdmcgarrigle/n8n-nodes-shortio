@@ -5,12 +5,13 @@
 - [Bugs/Contributing/Feature Request](#bugscontributingfeature-request)
 - [Documentation](#documentation)
 	- [Installation](#installation)
-	- [Operations](#operations)
 	- [Credentials](#credentials)
 	- [Links](#links)
 		- [List Links](#list-links)
 		- [Get Link Info](#get-link-info)
 		- [Create Link](#create-link)
+		- [Update Existing Link](#update-existing-link)
+		- [Delete Link](#delete-link)
 
 # Overview of Community Short.io n8n Node
 I have no affiliation with short.io beyond being a user.
@@ -34,17 +35,6 @@ Feel free to submit PRs, but please get in touch with me first to make sure I am
 This can only be installed if you are self-hosting n8n.
 
 Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
-
-## Operations
-
-Here is a list of all of the currently built operations in the Short.io node.
-
-Links
-- List links
-- Get link info
-- Create link
-- Update existing link
-- Delete link 
 
 ## Credentials
 
@@ -80,3 +70,9 @@ Get link details from the domain in your credential and the path.
 ### Create Link
 Create a link. There are many options. Please see the descriptions I added to n8n's interface.
 
+### Update Existing Link
+You can update an existing short link by using the path or the link `idString`. 
+You can change anything about the link including the full long URL.
+
+### Delete Link
+You can delete an existing short link by using the path or the link `idString`. 
