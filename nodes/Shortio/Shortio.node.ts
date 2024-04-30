@@ -20,7 +20,7 @@ export class Shortio implements INodeType {
 		group: ['Marketing & Content'],
 		version: 1,
 		subtitle: '={{ $parameter["operation"] }}',
-		description: 'Short.io Node for shortening links',
+		description: 'Short.io Node for shortening and managing links',
 		defaults: {
 			name: 'Short.io',
 		},
