@@ -9,8 +9,9 @@ import {
 } from 'n8n-workflow';
 import { resources } from './Resources';
 import { linkFields, linkOperations } from './Descriptions/LinkDescription';
-import { getLinkList, getLinkListResponse } from './Interfaces';
+import { CreateShortLinkRequest, getLinkList, getLinkListResponse } from './Interfaces';
 import { getCredsDomain, getDomainId, getLinkInfo } from './GenericFunctions';
+import { notBuildNotice } from './NotBuiltYetNotice';
 
 export class Shortio implements INodeType {
 	description: INodeTypeDescription = {
@@ -62,6 +63,8 @@ export class Shortio implements INodeType {
 
 			// ...statisticsOperations,
 			// ...statisticsFields,
+
+			...notBuildNotice
 
 		],
 	};
@@ -150,7 +153,7 @@ export class Shortio implements INodeType {
 							body.pageToken = response.nextPageToken;
 					}
 
-						item.json['shortIOResponse'] = responseObject;
+						item.json['shortIoResponse'] = responseObject;
 
 
 					}
@@ -165,13 +168,294 @@ export class Shortio implements INodeType {
 
 					const response = await getLinkInfo(this, baseLink, domain, path);
 
-					item.json['shortIOResponse'] = response;
+					item.json['shortIoResponse'] = response;
+
+				}
+
+
+				// ------------------------------------------------------------------
+				// --------------------------- CREATE LINK --------------------------
+				// ------------------------------------------------------------------
+				if( this.getNodeParameter('operation', 0) === 'createLink' ) {
+
+					const originalURL = this.getNodeParameter('originalURL', itemIndex, '') as string;
+
+					const additionalFields = this.getNodeParameter('additionalFields', itemIndex) as IDataObject; // gets values under additionalFields
+					const path = additionalFields.path as string;
+					const allowDuplicates = additionalFields.allowDuplicates as boolean;
+					const title = additionalFields.title as string;
+					const tags = additionalFields.tags as string[];
+					const expiresAt = additionalFields.expiresAt as number;
+					const expiredURL = additionalFields.expiredURL as string;
+					const iphoneURL = additionalFields.iphoneURL as string;
+					const androidURL = additionalFields.androidURL as string;
+					const cloaking = additionalFields.cloaking as boolean;
+					const redirectType = additionalFields.redirectType as string;
+					const password = additionalFields.password as string;
+					const ttl = additionalFields.ttl as number;
+					const utmSource = additionalFields.utmSource as string;
+					const utmMedium = additionalFields.utmMedium as string;
+					const utmCampaign = additionalFields.utmCampaign as string;
+					const utmTerm = additionalFields.utmTerm as string;
+					const utmContent = additionalFields.utmContent as string;
+
+					let body: CreateShortLinkRequest = {
+							"domain": domain,
+							"originalURL": originalURL
+						};
+
+					if(path) {
+						body.path = path;
+					}
+
+					if(allowDuplicates) {
+						body.allowDuplicates = allowDuplicates;
+					}
+
+					if(title) {
+						body.title = title;
+					}
+
+					if(tags) {
+						body.tags = tags;
+					}
+
+					if(expiresAt) {
+						body.expiresAt = expiresAt;
+					}
+
+					if(expiredURL) {
+						body.expiredURL = expiredURL;
+					}
+
+					if(iphoneURL) {
+						body.iphoneURL = iphoneURL;
+					}
+
+					if(androidURL) {
+						body.androidURL = androidURL;
+					}
+
+					if(cloaking) {
+						body.cloaking = cloaking;
+					}
+
+					if(redirectType) {
+						body.redirectType = redirectType;
+					}
+
+					if(password) {
+						body.password = password;
+					}
+
+					if(ttl) {
+						body.ttl = ttl;
+					}
+
+					if(utmSource) {
+						body.utmSource = utmSource;
+					}
+
+					if(utmMedium) {
+						body.utmMedium = utmMedium;
+					}
+
+					if(utmCampaign) {
+						body.utmCampaign = utmCampaign;
+					}
+
+					if(utmTerm) {
+						body.utmTerm = utmTerm;
+					}
+
+					if(utmContent) {
+						body.utmContent = utmContent;
+					}
+
+
+					const options: IHttpRequestOptions = {
+						url: baseLink + '/links',
+						method: 'POST',
+						body: body,
+					};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'shortioApi',
+							options,
+						);
+
+
+					item.json['shortIoResponse'] = response;
+
+				}
+
+				// ------------------------------------------------------------------
+				// --------------------------- UPDATE LINK --------------------------
+				// ------------------------------------------------------------------
+				if( this.getNodeParameter('operation', 0) === 'updateExistingLink' ) {
+
+					let existingShortLinkId:any = this.getNodeParameter('shortLinkId', itemIndex, '') as string;
+
+					if (existingShortLinkId.mode === 'path') {
+						const shortLinkInfo = await getLinkInfo(this, baseLink, domain, existingShortLinkId.value);
+						existingShortLinkId = shortLinkInfo.idString;
+					}
+
+
+					const originalURL = this.getNodeParameter('originalURL', itemIndex, '') as string;
+
+					const additionalFields = this.getNodeParameter('additionalFields', itemIndex) as IDataObject; // gets values under additionalFields
+					const path = additionalFields.path as string;
+					const allowDuplicates = additionalFields.allowDuplicates as boolean;
+					const title = additionalFields.title as string;
+					const tags = additionalFields.tags as string[];
+					const expiresAt = additionalFields.expiresAt as number;
+					const expiredURL = additionalFields.expiredURL as string;
+					const iphoneURL = additionalFields.iphoneURL as string;
+					const androidURL = additionalFields.androidURL as string;
+					const cloaking = additionalFields.cloaking as boolean;
+					const redirectType = additionalFields.redirectType as string;
+					const password = additionalFields.password as string;
+					const ttl = additionalFields.ttl as number;
+					const utmSource = additionalFields.utmSource as string;
+					const utmMedium = additionalFields.utmMedium as string;
+					const utmCampaign = additionalFields.utmCampaign as string;
+					const utmTerm = additionalFields.utmTerm as string;
+					const utmContent = additionalFields.utmContent as string;
+
+					let body: CreateShortLinkRequest = {
+							"originalURL": originalURL
+						};
+
+					if(path) {
+						body.path = path;
+					}
+
+					if(allowDuplicates) {
+						body.allowDuplicates = allowDuplicates;
+					}
+
+					if(title) {
+						body.title = title;
+					}
+
+					if(tags) {
+						body.tags = tags;
+					}
+
+					if(expiresAt) {
+						body.expiresAt = expiresAt;
+					}
+
+					if(expiredURL) {
+						body.expiredURL = expiredURL;
+					}
+
+					if(iphoneURL) {
+						body.iphoneURL = iphoneURL;
+					}
+
+					if(androidURL) {
+						body.androidURL = androidURL;
+					}
+
+					if(cloaking) {
+						body.cloaking = cloaking;
+					}
+
+					if(redirectType) {
+						body.redirectType = redirectType;
+					}
+
+					if(password) {
+						body.password = password;
+					}
+
+					if(ttl) {
+						body.ttl = ttl;
+					}
+
+					if(utmSource) {
+						body.utmSource = utmSource;
+					}
+
+					if(utmMedium) {
+						body.utmMedium = utmMedium;
+					}
+
+					if(utmCampaign) {
+						body.utmCampaign = utmCampaign;
+					}
+
+					if(utmTerm) {
+						body.utmTerm = utmTerm;
+					}
+
+					if(utmContent) {
+						body.utmContent = utmContent;
+					}
+
+
+					const options: IHttpRequestOptions = {
+						url: baseLink + '/links/' + existingShortLinkId,
+						method: 'POST',
+						body: body,
+					};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'shortioApi',
+							options,
+						);
+
+
+					item.json['shortIoResponse'] = response;
+
 
 				}
 
 
 
+
+				// ------------------------------------------------------------------
+				// --------------------------- DELETE LINK --------------------------
+				// ------------------------------------------------------------------
+				if( this.getNodeParameter('operation', 0) === 'deleteLink' ) {
+
+					let existingShortLinkId:any = this.getNodeParameter('shortLinkId', itemIndex, '') as string;
+
+					if (existingShortLinkId.mode === 'path') {
+						const shortLinkInfo = await getLinkInfo(this, baseLink, domain, existingShortLinkId.value);
+						existingShortLinkId = shortLinkInfo.idString;
+					}
+
+					// let body = {
+					// 		"linkIdString": existingShortLinkId,
+					// 	};
+
+
+					const options: IHttpRequestOptions = {
+						url: baseLink + '/links/' + existingShortLinkId,
+						method: 'DELETE',
+						// body: body,
+					};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'shortioApi',
+							options,
+						);
+
+
+					item.json['shortIoResponse'] = response;
+
+
 				}
+
+
+
+				} // end of execution area
 
 
 

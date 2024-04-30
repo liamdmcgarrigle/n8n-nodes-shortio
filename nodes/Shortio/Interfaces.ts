@@ -82,3 +82,25 @@ export interface DomainInfo {
   unicodeHostname?: string;
   isFavorite?: boolean;
 }
+
+export interface CreateShortLinkRequest {
+	"domain"?: string;
+	"originalURL":string;
+	"path"?:string;
+	"allowDuplicates"?:boolean;
+	"title"?:string;
+	"tags"?: string[];
+	"expiresAt"?:number;
+	"expiredURL"?:string;
+	"iphoneURL"?:string;
+	"androidURL"?:string;
+	"cloaking"?:boolean;
+	"redirectType"?:string;
+	"password"?:string;
+	"ttl"?:number;
+	"utmSource"?:string;
+	"utmMedium"?:string;
+	"utmCampaign"?:string;
+	"utmTerm"?:string;
+	"utmContent"?:string;
+}
