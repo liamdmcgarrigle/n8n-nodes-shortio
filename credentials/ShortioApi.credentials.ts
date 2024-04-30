@@ -4,7 +4,7 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class shortioApi implements ICredentialType {
+export class ShortioApi implements ICredentialType {
 	name = 'shortioApi';
 
 	displayName = 'Short.io API';
