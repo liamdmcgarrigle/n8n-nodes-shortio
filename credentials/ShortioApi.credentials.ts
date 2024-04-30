@@ -21,6 +21,13 @@ export class ShortioApi implements ICredentialType {
 			},
 			default: '',
 		},
+		{
+			displayName: 'Domain',
+			name: 'domain',
+			type: 'string',
+			default: 'urlLikeThis.com',
+			description: 'URL without https://, www., or any trailing /'
+		},
 	];
 
 	authenticate: IAuthenticateGeneric = {

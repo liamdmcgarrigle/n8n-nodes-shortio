@@ -39,9 +39,46 @@ interface returnedLinkFromList {
   User: User;
 }
 
-
 export interface getLinkListResponse {
 	"links"?:returnedLinkFromList[];
 	"count"?: number;
 	"nextPageToken"?: string;
+}
+
+
+export interface DomainInfo {
+  id: string;
+  TeamId?: string | null;
+  hostname?: string;
+  hasFavicon?: boolean | null;
+  segmentKey?: string | null;
+  linkType?: string;
+  enableAI?: boolean | null;
+  state?: string;
+  redirect404?: string;
+  hideReferer?: boolean;
+  hideVisitorIp?: boolean;
+  caseSensitive?: boolean;
+  exportEnabled?: boolean;
+  cloaking?: boolean;
+  incrementCounter?: string;
+  httpsLinks?: boolean;
+  sslCertExpirationDate?: string;
+  sslCertInstalledSuccess?: boolean;
+  clientStorage?: any | null;
+  integrationGA?: any | null;
+  integrationFB?: any | null;
+  integrationAdroll?: any | null;
+  integrationGTM?: any | null;
+  webhookURL?: string | null;
+  httpsLevel?: string;
+  robots?: string;
+  provider?: string;
+  purgeExpiredLinks?: boolean;
+  lastPurgeDate?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+  faviconURL?: string | null;
+  unicodeHostname?: string;
+  isFavorite?: boolean;
 }

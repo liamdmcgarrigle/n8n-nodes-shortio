@@ -1,47 +1,82 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Overview of Community Short.io n8n Node](#overview-of-community-shortio-n8n-node)
+- [If you want a custom node](#if-you-want-a-custom-node)
+- [Bugs/Contributing/Feature Request](#bugscontributingfeature-request)
+- [Documentation](#documentation)
+	- [Installation](#installation)
+	- [Operations](#operations)
+	- [Credentials](#credentials)
+	- [Links](#links)
+		- [List Links](#list-links)
+		- [Get Link Info](#get-link-info)
+		- [Create Link](#create-link)
 
-# n8n-nodes-starter
+# Overview of Community Short.io n8n Node
+I have no affiliation with short.io beyond being a user.
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](n8n.io). It includes the node linter and other dependencies.
+I created this node for use within my company as well as for our clients. I left out a few features, but I included the options for them so people can see what is possible. Feel free to submit a PR with the updated functionality, or get in touch to discuss us completing it.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+# If you want a custom node
+Please reach out to me using the info on [my GitHub page](https://github.com/liamdmcgarrigle).  \
+Nodes can be built for the community as well as privately just for one organization.
 
-## Prerequisites
+# Bugs/Contributing/Feature Request
 
-You need the following installed on your development machine:
+If you have a bug to report or a feature request, please [submit a GitHub issue](https://github.com/liamdmcgarrigle/n8n-nodes-shortio/issues/new) with as much detail as you're able to give.
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 16. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-	```
-	npm install n8n -g
-	```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+Feel free to submit PRs, but please get in touch with me first to make sure I am willing to add the feature before you spend the time on it.
+
+# Documentation
+
+## Installation
+
+This can only be installed if you are self-hosting n8n.
+
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
+
+## Operations
+
+Here is a list of all of the currently built operations in the Short.io node.
+
+Links
+- List links
+- Get link info
+- Create link
+- Update existing link
+- Delete link 
+
+## Credentials
+
+To use this node you will need to set up short.io credentials with a key from short.io. You also will need an account and may need a paid account.
+
+1. Go to https://app.short.io/settings/integrations/api-key and click on "Create API Key"
+![Screenshot1](/readme_files/step-1.jpeg)
+
+2. Add a description, pick the domain to use, and press "Create"
+![Screenshot2](/readme_files/step-2.jpeg)
+
+3. Copy your new token. It will only be shown once
+
+4. Go to the credential page in n8n, in add credentials add "Short.io API", then paste in your token. Then add the domain you chose in the previous step and press save
+![Screenshot3](/readme_files/step-3.png)
+
+## Links
+
+### List Links
+Get a list of your short links. These will only be links from the domain in your credential. 
+
+You will need to choose how many results are returned. Anything over 150 is automatically paginationed. 
+
+You can filter the results by adding:
+Before date: returns links before the listed date
+After date: returns links after the listed date
+Date Sort Order: changes the order the links are in based on the date
+
+### Get Link Info
+Get link details from the domain in your credential and the path.
 
 
-## Using this starter
+### Create Link
+Create a link. There are many options. Please see the descriptions I added to n8n's interface.
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
-
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-    ```
-    git clone https://github.com/<your organization>/<your-repo-name>.git
-    ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
-
-## More information
-
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
-
-## License
-
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)

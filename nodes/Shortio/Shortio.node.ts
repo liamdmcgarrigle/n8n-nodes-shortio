@@ -10,7 +10,7 @@ import {
 import { resources } from './Resources';
 import { linkFields, linkOperations } from './Descriptions/LinkDescription';
 import { getLinkList, getLinkListResponse } from './Interfaces';
-import { getLinkInfo } from './GenericFunctions';
+import { getCredsDomain, getDomainId, getLinkInfo } from './GenericFunctions';
 
 export class Shortio implements INodeType {
 	description: INodeTypeDescription = {
@@ -71,6 +71,9 @@ export class Shortio implements INodeType {
 		const items = this.getInputData();
 		let item: INodeExecutionData;
 		const baseLink = "https://api.short.io";
+		const domain = (await getCredsDomain(this, 'shortioApi') as string)
+			.replace(/^(https?:\/\/)?(www\.)?/gi, '')
+			.replace(/\/+$/, '') ;
 
 
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
@@ -84,7 +87,8 @@ export class Shortio implements INodeType {
 				// ------------------------------------------------------------------
 					if( this.getNodeParameter('operation', 0) === 'getLinkList' ) {
 
-						const domainId = this.getNodeParameter('domainId', itemIndex, '') as string;
+
+						const domainId = await getDomainId(this, this.getNode(), itemIndex, baseLink, domain);
 						const resultsToReturn = this.getNodeParameter('resultsToReturn', itemIndex, 50) as number;
 
 						const additionalFields = this.getNodeParameter('additionalFields', itemIndex) as IDataObject; // gets values under additionalFields
@@ -157,7 +161,6 @@ export class Shortio implements INodeType {
 				// ------------------------------------------------------------------
 				if( this.getNodeParameter('operation', 0) === 'getLinkInfo' ) {
 
-					const domain = this.getNodeParameter('domain', itemIndex, '') as string;
 					const path = this.getNodeParameter('path', itemIndex, '') as string;
 
 					const response = await getLinkInfo(this, baseLink, domain, path);

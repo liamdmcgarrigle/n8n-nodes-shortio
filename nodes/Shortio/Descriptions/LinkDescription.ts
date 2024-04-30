@@ -58,25 +58,6 @@ export const linkFields: INodeProperties[] = [
 	// ------------------------------------------------------------------
 
 	{
-		displayName: 'Domain ID',
-		name: 'domainId',
-		description: "The ID of the domain used in the short links",
-		type: 'string',
-		required: true,
-		default: '',
-		placeholder: "527167",
-		displayOptions: {
-			show: {
-				resource: [
-					'links',
-				],
-				operation: [
-					'getLinkList'
-				]
-			}
-		},
-	},
-	{
 		displayName: 'Results To Return',
 		name: 'resultsToReturn',
 		type: 'number',
@@ -156,25 +137,6 @@ export const linkFields: INodeProperties[] = [
 	// ------------------------------------------------------------------
 
 	{
-		displayName: 'Domain',
-		name: 'domain',
-		description: "The domain without https:// or the trailing /",
-		type: 'string',
-		required: true,
-		default: '',
-		placeholder: "domain.tdl",
-		displayOptions: {
-			show: {
-				resource: [
-					'links',
-				],
-				operation: [
-					'getLinkInfo'
-				]
-			}
-		},
-	},
-	{
 		displayName: 'Path',
 		name: 'path',
 		description: "The path of the link",
@@ -201,25 +163,6 @@ export const linkFields: INodeProperties[] = [
 	// ----------------------- CREATE LINK FIELDS -----------------------
 	// ------------------------------------------------------------------
 
-	{
-		displayName: 'Domain',
-		name: 'domain',
-		description: "The domain without https:// or the trailing /",
-		type: 'string',
-		required: true,
-		default: '',
-		placeholder: "domain.tdl",
-		displayOptions: {
-			show: {
-				resource: [
-					'links',
-				],
-				operation: [
-					'createLink'
-				]
-			}
-		},
-	},
 	{
 		displayName: 'Original Long URL',
 		name: 'originalURL',
