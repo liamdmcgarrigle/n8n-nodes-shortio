@@ -19,13 +19,16 @@ export class ShortioApi implements ICredentialType {
 			typeOptions: {
 				password: true,
 			},
+			required: true,
 			default: '',
 		},
 		{
 			displayName: 'Domain',
 			name: 'domain',
 			type: 'string',
-			default: 'urlLikeThis.com',
+			default: '',
+			required: true,
+			placeholder: 'urlLikeThis.com',
 			description: 'URL without https://, www., or any trailing /'
 		},
 	];
