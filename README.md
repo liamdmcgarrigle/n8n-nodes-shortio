@@ -32,9 +32,9 @@ Feel free to submit PRs, but please get in touch with me first to make sure I am
 
 ## Installation
 
-This can only be installed if you are self-hosting n8n.
+This is now available on cloud as a verified community node. Simply search for shortio in the node panel.
 
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
+Or follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
 ## Credentials
 
