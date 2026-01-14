@@ -207,7 +207,7 @@ export class ShortioV2 implements INodeType {
 						const path = additionalFields.path as string;
 						const allowDuplicates = additionalFields.allowDuplicates as boolean;
 						const title = additionalFields.title as string;
-						const tags = additionalFields.tags as string[];
+						const tagsData = additionalFields.tags as { tags: { tag: string }[] } | undefined;
 						const expiresAt = additionalFields.expiresAt as number;
 						const expiredURL = additionalFields.expiredURL as string;
 						const iphoneURL = additionalFields.iphoneURL as string;
@@ -242,8 +242,8 @@ export class ShortioV2 implements INodeType {
 							body.title = title;
 						}
 
-						if (tags) {
-							body.tags = tags;
+						if (tagsData?.tags) {
+							body.tags = tagsData.tags.map((t) => t.tag);
 						}
 
 						if (expiresAt) {
@@ -349,7 +349,7 @@ export class ShortioV2 implements INodeType {
 						const path = additionalFields.path as string;
 						const allowDuplicates = additionalFields.allowDuplicates as boolean;
 						const title = additionalFields.title as string;
-						const tags = additionalFields.tags as string[];
+						const tagsData = additionalFields.tags as { tags: { tag: string }[] } | undefined;
 						const expiresAt = additionalFields.expiresAt as number;
 						const expiredURL = additionalFields.expiredURL as string;
 						const iphoneURL = additionalFields.iphoneURL as string;
@@ -383,8 +383,8 @@ export class ShortioV2 implements INodeType {
 							body.title = title;
 						}
 
-						if (tags) {
-							body.tags = tags;
+						if (tagsData?.tags) {
+							body.tags = tagsData.tags.map((t) => t.tag);
 						}
 
 						if (expiresAt) {
