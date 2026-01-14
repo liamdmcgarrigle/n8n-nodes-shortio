@@ -4,11 +4,7 @@ export const resources = [
 		value: 'links',
 	},
 	{
-		name: 'Domains',
-		value: 'domains',
-	},
-	{
 		name: 'Statistics',
 		value: 'statistics',
 	},
-]
+];
