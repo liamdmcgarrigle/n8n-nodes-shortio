@@ -497,6 +497,77 @@ export class ShortioV2 implements INodeType {
 							pairedItem: { item: itemIndex },
 						});
 					}
+
+					// ------------------------------------------------------------------
+					// ----------------------- GENERATE QR FOR LINK ---------------------
+					// ------------------------------------------------------------------
+					if (this.getNodeParameter('operation', 0) === 'generateQrForLink') {
+						let shortLinkId: any = this.getNodeParameter('shortLinkId', itemIndex, '');
+
+						if (shortLinkId.mode === 'path') {
+							const shortLinkInfo = await getLinkInfo(this, baseLink, domain, shortLinkId.value);
+							shortLinkId = shortLinkInfo.idString;
+						} else {
+							shortLinkId = shortLinkId.value;
+						}
+
+						const additionalFields = this.getNodeParameter(
+							'additionalFields',
+							itemIndex,
+						) as IDataObject;
+
+						const body: IDataObject = {
+							useDomainSettings: true,
+						};
+
+						if (additionalFields.color) {
+							body.color = (additionalFields.color as string).replace(/^#/, '');
+						}
+
+						if (additionalFields.backgroundColor) {
+							body.backgroundColor = (additionalFields.backgroundColor as string).replace(/^#/, '');
+						}
+
+						if (additionalFields.size) {
+							body.size = additionalFields.size;
+						}
+
+						if (additionalFields.type) {
+							body.type = additionalFields.type;
+						}
+
+						const fileType = (additionalFields.type as string) || 'png';
+
+						const options: IHttpRequestOptions = {
+							url: baseLink + '/links/qr/' + shortLinkId,
+							method: 'POST',
+							body: body,
+							encoding: 'arraybuffer',
+						};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'shortioApi',
+							options,
+						);
+
+						const mimeType = fileType === 'svg' ? 'image/svg+xml' : 'image/png';
+						const fileName = `qr-code.${fileType}`;
+
+						const binaryData = await this.helpers.prepareBinaryData(
+							Buffer.from(response as ArrayBuffer),
+							fileName,
+							mimeType,
+						);
+
+						returnData.push({
+							json: {},
+							binary: {
+								data: binaryData,
+							},
+							pairedItem: { item: itemIndex },
+						});
+					}
 				} // end of links resource check
 			} catch (error) {
 				if (this.continueOnFail()) {

@@ -695,4 +695,98 @@ export const linkFields: INodeProperties[] = [
 			},
 		},
 	},
+
+	// ------------------------------------------------------------------
+	// -------------------- GENERATE QR FOR LINK FIELDS -----------------
+	// ------------------------------------------------------------------
+
+	{
+		displayName: 'Short Link Identifier',
+		name: 'shortLinkId',
+		type: 'resourceLocator',
+		default: { mode: 'path', value: '' },
+		required: true,
+		modes: [
+			{
+				displayName: 'Path',
+				name: 'path',
+				type: 'string',
+				hint: 'the part after the url in the short link',
+				placeholder: '6fzQYy',
+			},
+			{
+				displayName: 'ID',
+				name: 'id',
+				type: 'string',
+				hint: 'Enter the ID. It is called "idString" in short.io\'s params and looks like the placeholder.',
+				placeholder: 'lnk_2d8H_1mhLCB64zynbor35uZBcd',
+			},
+		],
+		displayOptions: {
+			show: {
+				resource: ['links'],
+				operation: ['generateQrForLink'],
+			},
+		},
+	},
+
+	{
+		displayName: 'Additional Fields',
+		name: 'additionalFields',
+		type: 'collection',
+		default: {},
+		placeholder: 'Add Field',
+		displayOptions: {
+			show: {
+				resource: ['links'],
+				operation: ['generateQrForLink'],
+			},
+		},
+		options: [
+			{
+				displayName: 'Color',
+				name: 'color',
+				description: 'QR code foreground color (hex)',
+				type: 'string',
+				default: '',
+				placeholder: '#000000',
+			},
+			{
+				displayName: 'Background Color',
+				name: 'backgroundColor',
+				description: 'QR code background color (hex)',
+				type: 'string',
+				default: '',
+				placeholder: '#FFFFFF',
+			},
+			{
+				displayName: 'Size',
+				name: 'size',
+				description: 'QR code size (1-99)',
+				type: 'number',
+				typeOptions: {
+					minValue: 1,
+					maxValue: 99,
+				},
+				default: 20,
+			},
+			{
+				displayName: 'Type',
+				name: 'type',
+				description: 'QR code image format',
+				type: 'options',
+				options: [
+					{
+						name: 'PNG',
+						value: 'png',
+					},
+					{
+						name: 'SVG',
+						value: 'svg',
+					},
+				],
+				default: 'png',
+			},
+		],
+	},
 ];
