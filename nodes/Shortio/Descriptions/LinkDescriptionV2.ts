@@ -179,6 +179,31 @@ export const linkFields: INodeProperties[] = [
 				placeholder: '6fzQYy',
 			},
 			{
+				displayName: 'Folder',
+				name: 'folderId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				description: 'The folder to place the link in',
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						typeOptions: {
+							searchListMethod: 'folderSearch',
+							searchable: false,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						hint: 'Enter the folder ID',
+						placeholder: 'aDGGu-gF65LoE8C6f9cfH',
+					},
+				],
+			},
+			{
 				displayName: 'Allow Duplicates',
 				name: 'allowDuplicates',
 				description: 'Whether you can create multiple links with the same original URL',
@@ -428,6 +453,31 @@ export const linkFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				placeholder: '6fzQYy',
+			},
+			{
+				displayName: 'Folder',
+				name: 'folderId',
+				type: 'resourceLocator',
+				default: { mode: 'list', value: '' },
+				description: 'The folder to place the link in',
+				modes: [
+					{
+						displayName: 'From List',
+						name: 'list',
+						type: 'list',
+						typeOptions: {
+							searchListMethod: 'folderSearch',
+							searchable: false,
+						},
+					},
+					{
+						displayName: 'By ID',
+						name: 'id',
+						type: 'string',
+						hint: 'Enter the folder ID',
+						placeholder: 'aDGGu-gF65LoE8C6f9cfH',
+					},
+				],
 			},
 			{
 				displayName: 'Allow Duplicates',

@@ -2,16 +2,24 @@ import {
 	IDataObject,
 	IExecuteFunctions,
 	IHttpRequestOptions,
+	ILoadOptionsFunctions,
 	INodeExecutionData,
+	INodeListSearchResult,
 	INodeType,
 	INodeTypeBaseDescription,
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
 import { resources } from '../Resources';
-import { linkFields, linkOperations } from '../Descriptions/LinkDescription';
+import { linkFields, linkOperations } from '../Descriptions/LinkDescriptionV2';
 import { CreateShortLinkRequest, getLinkList, getLinkListResponse } from '../Interfaces';
-import { getCredsDomain, getDomainId, getLinkInfo } from '../GenericFunctions';
+import {
+	getCredsDomain,
+	getDomainId,
+	getDomainIdFromCredentials,
+	getFolders,
+	getLinkInfo,
+} from '../GenericFunctions';
 
 const versionDescription: INodeTypeDescription = {
 	displayName: 'Short.io',
@@ -66,6 +74,23 @@ export class ShortioV2 implements INodeType {
 			...versionDescription,
 		};
 	}
+
+	methods = {
+		listSearch: {
+			async folderSearch(this: ILoadOptionsFunctions): Promise<INodeListSearchResult> {
+				const baseLink = 'https://api.short.io';
+				const domainId = await getDomainIdFromCredentials(this, baseLink);
+				const folders = await getFolders(this, domainId);
+
+				return {
+					results: folders.map((folder) => ({
+						name: folder.name,
+						value: folder.id,
+					})),
+				};
+			},
+		},
+	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
@@ -196,6 +221,9 @@ export class ShortioV2 implements INodeType {
 						const utmCampaign = additionalFields.utmCampaign as string;
 						const utmTerm = additionalFields.utmTerm as string;
 						const utmContent = additionalFields.utmContent as string;
+						const folderIdData = additionalFields.folderId as
+							| { mode: string; value: string }
+							| undefined;
 
 						const body: CreateShortLinkRequest = {
 							domain: domain,
@@ -270,6 +298,10 @@ export class ShortioV2 implements INodeType {
 							body.utmContent = utmContent;
 						}
 
+						if (folderIdData?.value) {
+							body.folderId = folderIdData.value;
+						}
+
 						const options: IHttpRequestOptions = {
 							url: baseLink + '/links',
 							method: 'POST',
@@ -331,6 +363,9 @@ export class ShortioV2 implements INodeType {
 						const utmCampaign = additionalFields.utmCampaign as string;
 						const utmTerm = additionalFields.utmTerm as string;
 						const utmContent = additionalFields.utmContent as string;
+						const folderIdData = additionalFields.folderId as
+							| { mode: string; value: string }
+							| undefined;
 
 						const body: CreateShortLinkRequest = {
 							originalURL: originalURL,
@@ -402,6 +437,10 @@ export class ShortioV2 implements INodeType {
 
 						if (utmContent) {
 							body.utmContent = utmContent;
+						}
+
+						if (folderIdData?.value) {
+							body.folderId = folderIdData.value;
 						}
 
 						const options: IHttpRequestOptions = {
