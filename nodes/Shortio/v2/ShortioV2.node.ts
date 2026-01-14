@@ -12,7 +12,13 @@ import {
 } from 'n8n-workflow';
 import { resources } from '../Resources';
 import { linkFields, linkOperations } from '../Descriptions/LinkDescriptionV2';
-import { CreateShortLinkRequest, getLinkList, getLinkListResponse } from '../Interfaces';
+import { statisticsFields, statisticsOperations } from '../Descriptions/StatisticsDescription';
+import {
+	CreateShortLinkRequest,
+	getLinkList,
+	getLinkListResponse,
+	StatisticsRequest,
+} from '../Interfaces';
 import {
 	getCredsDomain,
 	getDomainId,
@@ -62,6 +68,9 @@ const versionDescription: INodeTypeDescription = {
 
 		...linkOperations,
 		...linkFields,
+
+		...statisticsOperations,
+		...statisticsFields,
 	],
 };
 
@@ -569,6 +578,117 @@ export class ShortioV2 implements INodeType {
 						});
 					}
 				} // end of links resource check
+
+				// ------------------------------------------------------------------
+				// ----------------------- STATISTICS RESOURCE ----------------------
+				// ------------------------------------------------------------------
+				if (this.getNodeParameter('resource', 0) === 'statistics') {
+					const statisticsBaseLink = 'https://statistics.short.io';
+					const timezone = this.getTimezone();
+
+					// ------------------------------------------------------------------
+					// -------------------- GET LINK STATISTICS -------------------------
+					// ------------------------------------------------------------------
+					if (this.getNodeParameter('operation', 0) === 'getLinkStatistics') {
+						let shortLinkId: any = this.getNodeParameter('shortLinkId', itemIndex, '');
+
+						if (shortLinkId.mode === 'path') {
+							const shortLinkInfo = await getLinkInfo(this, baseLink, domain, shortLinkId.value);
+							shortLinkId = shortLinkInfo.idString;
+						} else {
+							shortLinkId = shortLinkId.value;
+						}
+
+						const period = this.getNodeParameter('period', itemIndex) as string;
+						const additionalFields = this.getNodeParameter(
+							'additionalFields',
+							itemIndex,
+						) as IDataObject;
+
+						const qs: StatisticsRequest = {
+							period,
+							tz: timezone,
+						};
+
+						if (period === 'custom') {
+							const startDate = this.getNodeParameter('startDate', itemIndex) as string;
+							const endDate = this.getNodeParameter('endDate', itemIndex) as string;
+							qs.startDate = new Date(startDate).getTime();
+							qs.endDate = new Date(endDate).getTime();
+						}
+
+						if (additionalFields.clicksChartInterval) {
+							qs.clicksChartInterval = additionalFields.clicksChartInterval as string;
+						}
+
+						if (additionalFields.skipTops) {
+							qs.skipTops = additionalFields.skipTops as boolean;
+						}
+
+						const options: IHttpRequestOptions = {
+							url: `${statisticsBaseLink}/statistics/link/${shortLinkId}`,
+							method: 'GET',
+							qs,
+						};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'shortioApi',
+							options,
+						);
+
+						returnData.push({
+							json: response as IDataObject,
+							pairedItem: { item: itemIndex },
+						});
+					}
+
+					// ------------------------------------------------------------------
+					// -------------------- GET DOMAIN STATISTICS -----------------------
+					// ------------------------------------------------------------------
+					if (this.getNodeParameter('operation', 0) === 'getDomainStatistics') {
+						const domainId = await getDomainId(this, this.getNode(), itemIndex, baseLink, domain);
+
+						const period = this.getNodeParameter('period', itemIndex) as string;
+						const additionalFields = this.getNodeParameter(
+							'additionalFields',
+							itemIndex,
+						) as IDataObject;
+
+						const qs: StatisticsRequest = {
+							period,
+							tz: timezone,
+						};
+
+						if (period === 'custom') {
+							const startDate = this.getNodeParameter('startDate', itemIndex) as string;
+							const endDate = this.getNodeParameter('endDate', itemIndex) as string;
+							qs.startDate = new Date(startDate).getTime();
+							qs.endDate = new Date(endDate).getTime();
+						}
+
+						if (additionalFields.clicksChartInterval) {
+							qs.clicksChartInterval = additionalFields.clicksChartInterval as string;
+						}
+
+						const options: IHttpRequestOptions = {
+							url: `${statisticsBaseLink}/statistics/domain/${domainId}`,
+							method: 'GET',
+							qs,
+						};
+
+						const response = await this.helpers.httpRequestWithAuthentication.call(
+							this,
+							'shortioApi',
+							options,
+						);
+
+						returnData.push({
+							json: response as IDataObject,
+							pairedItem: { item: itemIndex },
+						});
+					}
+				} // end of statistics resource check
 			} catch (error) {
 				if (this.continueOnFail()) {
 					returnData.push({

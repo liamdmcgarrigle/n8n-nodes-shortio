@@ -110,3 +110,14 @@ export interface FolderInfo {
 export interface GetFoldersResponse {
 	linkFolders: FolderInfo[];
 }
+
+export interface StatisticsRequest {
+	period: string;
+	tz: string;
+	startDate?: string | number;
+	endDate?: string | number;
+	clicksChartInterval?: string;
+	skipTops?: boolean;
+
+	[key: string]: any;
+}
