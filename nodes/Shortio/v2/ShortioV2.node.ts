@@ -25,6 +25,7 @@ import {
 	getDomainIdFromCredentials,
 	getFolders,
 	getLinkInfo,
+	normalizePath,
 } from '../GenericFunctions';
 
 const versionDescription: INodeTypeDescription = {
@@ -240,7 +241,7 @@ export class ShortioV2 implements INodeType {
 						};
 
 						if (path) {
-							body.path = path;
+							body.path = normalizePath(path);
 						}
 
 						if (allowDuplicates) {
@@ -381,7 +382,7 @@ export class ShortioV2 implements INodeType {
 						};
 
 						if (path) {
-							body.path = path;
+							body.path = normalizePath(path);
 						}
 
 						if (allowDuplicates) {

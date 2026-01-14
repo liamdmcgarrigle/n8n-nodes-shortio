@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-shortio",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A custom n8n node to work with short.io, a custom short link service. This is a community project, I have no affiliation with short.io",
 	"keywords": [
 		"n8n-community-node-package",

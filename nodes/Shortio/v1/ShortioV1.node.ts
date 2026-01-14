@@ -11,7 +11,7 @@ import {
 import { resources } from '../Resources';
 import { linkFields, linkOperations } from '../Descriptions/LinkDescription';
 import { CreateShortLinkRequest, getLinkList, getLinkListResponse } from '../Interfaces';
-import { getCredsDomain, getDomainId, getLinkInfo } from '../GenericFunctions';
+import { getCredsDomain, getDomainId, getLinkInfo, normalizePath } from '../GenericFunctions';
 import { oldVersionNotice } from '../oldVersionNotice';
 
 const versionDescription: INodeTypeDescription = {
@@ -201,7 +201,7 @@ export class ShortioV1 implements INodeType {
 						};
 
 						if (path) {
-							body.path = path;
+							body.path = normalizePath(path);
 						}
 
 						if (allowDuplicates) {
@@ -332,7 +332,7 @@ export class ShortioV1 implements INodeType {
 						};
 
 						if (path) {
-							body.path = path;
+							body.path = normalizePath(path);
 						}
 
 						if (allowDuplicates) {

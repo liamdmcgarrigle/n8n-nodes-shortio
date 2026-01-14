@@ -14,6 +14,13 @@ export function normalizeDomain(domain: string): string {
 	return domain.replace(/^(https?:\/\/)?(www\.)?/gi, '').replace(/\/+$/, '');
 }
 
+/**
+ * Normalize a path by removing leading slashes
+ */
+export function normalizePath(path: string): string {
+	return path.replace(/^\/+/, '');
+}
+
 export async function getLinkInfo(
 	node: IExecuteFunctions,
 	baseLink: string,
