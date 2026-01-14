@@ -1,8 +1,9 @@
 {
-	"node": "n8n-nodes-base.Shortio",
-	"categories": [
-		"Marketing & Content"
-	],
+	"node": "n8n-nodes-shortio.Shortio",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Marketing & Content"],
+	"alias": ["short", "link", "url", "shorten", "shortener"],
 	"resources": {
 		"credentialDocumentation": [
 			{
