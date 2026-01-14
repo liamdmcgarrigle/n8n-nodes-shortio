@@ -31,8 +31,6 @@ import {
 const versionDescription: INodeTypeDescription = {
 	displayName: 'Short.io',
 	name: 'Shortio',
-	// eslint-disable-next-line n8n-nodes-base/node-class-description-icon-not-svg
-	icon: 'file:../shortio_logo.png',
 	group: ['output'],
 	version: 2,
 	subtitle: '={{ $parameter["operation"] }}',
